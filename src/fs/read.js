@@ -1,5 +1,20 @@
-const read = async () => {
-    // Write your code here 
-};
+import fs from 'node:fs/promises'
+import path from 'node:path'
 
-await read();
+const read = async () => {
+  const fileName = path.resolve('src/fs/files/fileToRead.txt')
+
+  try {
+    const fileContents = await fs.readFile(fileName, { encoding: 'utf-8' })
+
+    console.log(fileContents)
+  } catch (err) {
+    if (err.code === 'ENOENT') {
+      throw new Error('FS operation failed')
+    } else {
+      throw err
+    }
+  }
+}
+
+await read()
